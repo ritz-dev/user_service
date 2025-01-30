@@ -13,7 +13,7 @@ services:
       - ./src:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
-      - api_network
+      - laravel_api
 
   php_user:
     build:
@@ -23,7 +23,7 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
     networks:
-      - api_network
+      - laravel_api
 
   composer_user: 
     build:
@@ -32,7 +32,7 @@ services:
     volumes:
       - ./src:/var/www/html
     networks:
-      - api_network
+      - laravel_api
 
   artisan_user:
     build:
@@ -42,7 +42,7 @@ services:
       - ./src:/var/www/html
     entrypoint: ['php', '/var/www/html/artisan']
     networks:
-      - api_network
+      - laravel_api
 
   npm_user:
     image: node:14
@@ -51,9 +51,9 @@ services:
     volumes:
       - ./src:/var/www/html
     networks:
-      - api_network
+      - laravel_api
 
 networks:
-  api_network:
+  laravel_api:
     external: true
     driver: bridge
