@@ -15,15 +15,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/login',[AuthController::class,'login']);
-
-Route::post('/register',[AuthController::class,'register']);
-
-Route::middleware('auth:employee')->group(function(){
-
-    Route::post('/logout',[AuthController::class,'logout']);
-
-    Route::get('/me',[AuthController::class,'me']);
 
     Route::resource('/users',EmployeeController::class);
 
@@ -39,4 +30,3 @@ Route::middleware('auth:employee')->group(function(){
 
     Route::resource('/teachers',TeacherController::class);
 
-});

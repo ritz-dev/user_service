@@ -92,39 +92,52 @@ class AuthController extends Controller
         ]);
     }
 
-    public function me () {
-        $user = auth()->guard('employee')->user();
-
-        $name = $user->personal->name;
-
-        $role = Role::where('id',$user->role_id)->pluck('name')->first();
-
-        $role_permissions = RolePermission::where('role_id',$user->role_id)->get();
-
-        $permissionIds = [];
-
-        foreach($role_permissions as $role_permission){
-            $permissionIds[] = $role_permission->permission_id;
-        }
-
-        $permission = [];
-
-        foreach($permissionIds as $permissionId){
-            $permission[] = Permission::where('id',$permissionId)->pluck('name')->first();
-        }
+    public function me (Request $request) {
 
         $data = [
-            'id' => $user->id,
-            'name' => $name,
-            'email' => $user->email,
-            'role' => $role,
-            'permissions' => $permission,
-        ];
+                'id' => $request->id,
+                'name' => $request->name,
+                'email' => $request->email,
+            ];
 
         if(!$data) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return response()->json($data);
+
+        // $user = auth()->guard('employee')->user();
+
+        // $name = $user->personal->name;
+
+        // $role = Role::where('id',$user->role_id)->pluck('name')->first();
+
+        // $role_permissions = RolePermission::where('role_id',$user->role_id)->get();
+
+        // $permissionIds = [];
+
+        // foreach($role_permissions as $role_permission){
+        //     $permissionIds[] = $role_permission->permission_id;
+        // }
+
+        // $permission = [];
+
+        // foreach($permissionIds as $permissionId){
+        //     $permission[] = Permission::where('id',$permissionId)->pluck('name')->first();
+        // }
+
+        // $data = [
+        //     'id' => $user->id,
+        //     'name' => $name,
+        //     'email' => $user->email,
+        //     'role' => $role,
+        //     'permissions' => $permission,
+        // ];
+
+        // if(!$data) {
+        //     return response()->json(['error' => 'Unauthorized'], 401);
+        // }
+
+        // return response()->json($data);
     }
 }
