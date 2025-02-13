@@ -38,106 +38,106 @@ class AuthController extends Controller
     //     ]);
     // }
 
-    public function login(Request $request)
-    {
-        $credentials = [
-            'email'    => $request->email,
-            'password' => $request->password
-        ];
+    // public function login(Request $request)
+    // {
+    //     $credentials = [
+    //         'email'    => $request->email,
+    //         'password' => $request->password
+    //     ];
 
-        $employee = Employee::where('email', $request->email)->first();
-        if ($employee && Hash::check($request->password, $employee->password)) {
-            $token = $employee->createToken('SMS')->accessToken;
+    //     $employee = Employee::where('email', $request->email)->first();
+    //     if ($employee && Hash::check($request->password, $employee->password)) {
+    //         $token = $employee->createToken('SMS')->accessToken;
 
 
-            $role = Role::where('id',$employee->role_id)->pluck('name')->first();
-            $role_permissions = RolePermission::where('role_id',$employee->role_id)->get();
+    //         $role = Role::where('id',$employee->role_id)->pluck('name')->first();
+    //         $role_permissions = RolePermission::where('role_id',$employee->role_id)->get();
 
-            $permission = [];
+    //         $permission = [];
 
-            foreach($role_permissions as $role_permission){
-                $permission [] = Permission::where('id',$role_permission->permission_id)->pluck('name')->first();
-            }
-            return response()->json([
-                'status' => 'success',
-                'token' => $token,
-                'token_type' => 'bearer',
-                'admin' => $employee,
-                'permissions' => $permission,
-                'role' => $role
-            ]);
-        }
+    //         foreach($role_permissions as $role_permission){
+    //             $permission [] = Permission::where('id',$role_permission->permission_id)->pluck('name')->first();
+    //         }
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'token' => $token,
+    //             'token_type' => 'bearer',
+    //             'admin' => $employee,
+    //             'permissions' => $permission,
+    //             'role' => $role
+    //         ]);
+    //     }
 
-        // If no user or admin matches, return an error
-        return response()->json(['error' => 'Unauthorized'], 401);
+    //     // If no user or admin matches, return an error
+    //     return response()->json(['error' => 'Unauthorized'], 401);
 
-    }
+    // }
 
-    public function logout(){
-        $user = auth()->guard('employee')->user();
+    // public function logout(){
+    //     $user = auth()->guard('employee')->user();
 
-        if ($user) {
-            // Revoke the user's token if Passport is used
-            $user->tokens->each(function ($token) {
-                $token->delete();
-            });
+    //     if ($user) {
+    //         // Revoke the user's token if Passport is used
+    //         $user->tokens->each(function ($token) {
+    //             $token->delete();
+    //         });
 
-            return response()->json([
-                'message' => "Logout Successfully",
-            ]);
-        }
+    //         return response()->json([
+    //             'message' => "Logout Successfully",
+    //         ]);
+    //     }
 
-        return response()->json([
-            'message' => "User not logged in",
-        ]);
-    }
+    //     return response()->json([
+    //         'message' => "User not logged in",
+    //     ]);
+    // }
 
-    public function me (Request $request) {
+    // public function me (Request $request) {
 
-        $data = [
-                'id' => $request->id,
-                'name' => $request->name,
-                'email' => $request->email,
-            ];
+    //     $data = [
+    //             'id' => $request->id,
+    //             'name' => $request->name,
+    //             'email' => $request->email,
+    //         ];
 
-        if(!$data) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+    //     if(!$data) {
+    //         return response()->json(['error' => 'Unauthorized'], 401);
+    //     }
 
-        return response()->json($data);
+    //     return response()->json($data);
 
-        // $user = auth()->guard('employee')->user();
+    //     // $user = auth()->guard('employee')->user();
 
-        // $name = $user->personal->name;
+    //     // $name = $user->personal->name;
 
-        // $role = Role::where('id',$user->role_id)->pluck('name')->first();
+    //     // $role = Role::where('id',$user->role_id)->pluck('name')->first();
 
-        // $role_permissions = RolePermission::where('role_id',$user->role_id)->get();
+    //     // $role_permissions = RolePermission::where('role_id',$user->role_id)->get();
 
-        // $permissionIds = [];
+    //     // $permissionIds = [];
 
-        // foreach($role_permissions as $role_permission){
-        //     $permissionIds[] = $role_permission->permission_id;
-        // }
+    //     // foreach($role_permissions as $role_permission){
+    //     //     $permissionIds[] = $role_permission->permission_id;
+    //     // }
 
-        // $permission = [];
+    //     // $permission = [];
 
-        // foreach($permissionIds as $permissionId){
-        //     $permission[] = Permission::where('id',$permissionId)->pluck('name')->first();
-        // }
+    //     // foreach($permissionIds as $permissionId){
+    //     //     $permission[] = Permission::where('id',$permissionId)->pluck('name')->first();
+    //     // }
 
-        // $data = [
-        //     'id' => $user->id,
-        //     'name' => $name,
-        //     'email' => $user->email,
-        //     'role' => $role,
-        //     'permissions' => $permission,
-        // ];
+    //     // $data = [
+    //     //     'id' => $user->id,
+    //     //     'name' => $name,
+    //     //     'email' => $user->email,
+    //     //     'role' => $role,
+    //     //     'permissions' => $permission,
+    //     // ];
 
-        // if(!$data) {
-        //     return response()->json(['error' => 'Unauthorized'], 401);
-        // }
+    //     // if(!$data) {
+    //     //     return response()->json(['error' => 'Unauthorized'], 401);
+    //     // }
 
-        // return response()->json($data);
-    }
+    //     // return response()->json($data);
+    // }
 }

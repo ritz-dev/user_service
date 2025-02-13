@@ -15,18 +15,11 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::resource('/personals',PersonalController::class);
 
-    Route::resource('/users',EmployeeController::class);
+Route::resource('/employees',EmployeeController::class);
 
-    Route::resource('/permissions',PermissionController::class);
+Route::resource('/students',StudentController::class);
 
-    Route::resource('/roles',RoleController::class);
-
-    Route::resource('/personals',PersonalController::class);
-
-    Route::resource('/employees',EmployeeController::class);
-
-    Route::resource('/students',StudentController::class);
-
-    Route::resource('/teachers',TeacherController::class);
+Route::resource('/teachers',TeacherController::class);
 
